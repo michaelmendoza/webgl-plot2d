@@ -4,8 +4,6 @@ A simple webgl application for plotting 2D functions
 
 ## Getting Started
 
-To setup
-```npm install```
+To setup: ```npm install```
 
-To run server
-```npm start```
+To run server: ```npm start```

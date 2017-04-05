@@ -6,6 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "async": "^2.3.0",
     "express": "~4.9.x"
   },
   "engines": {

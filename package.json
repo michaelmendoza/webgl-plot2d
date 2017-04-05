@@ -1,0 +1,14 @@
+{
+  "name": "webgl-plot2d",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "~4.9.x"
+  },
+  "engines": {
+    "node": "6.5.0"
+  }
+}

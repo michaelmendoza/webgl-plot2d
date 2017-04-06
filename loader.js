@@ -14,5 +14,14 @@
 		req.send();
 	}
 
+	loader.loadImage = function(filename, callback) {
+		var image = new Image();
+		image.onload = function() {
+			callback(image);
+		}
+		image.src = filename;
+		return image;
+	}
+
 	return loader;
  }();

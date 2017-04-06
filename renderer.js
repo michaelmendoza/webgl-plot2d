@@ -18,12 +18,13 @@ Renderer.prototype = {
 		this.props = { 
 			// Set CPU-side variables for all our shader varibles
 			vpDimensions:[canvas.width, canvas.height],
-			yMin: -1.0,
+			yMin: 0.0,
 			yMax: 1.0,
-			xMin: -1.0,
-			xMax: 1.0
+			xMin: 0.0,
+			xMax: 1.0,
+			texture: null
 		}
-
+		
 		window.addEventListener('resize', this.onResizeWindow.bind(this));
 		window.addEventListener('wheel', this.onZoom.bind(this));
 		window.addEventListener('mousemove', this.onMouseMove.bind(this));
@@ -44,6 +45,10 @@ Renderer.prototype = {
 		gl.uniform1f(uniforms.xMin, this.props.xMin);
 		gl.uniform1f(uniforms.xMax, this.props.xMax);
 
+		gl.activeTexture(gl.TEXTURE0);
+		gl.bindTexture(gl.TEXTURE_2D, this.props.texture);
+		gl.uniform1i(uniforms.uSampler, 0);
+
 		gl.drawArrays(gl.TRIANGLES, 0, 6);
 
 		requestAnimationFrame(this.render.bind(this));
@@ -52,10 +57,9 @@ Renderer.prototype = {
 	startRender: function() {
 		requestAnimationFrame(this.render.bind(this));
 		this.onResizeWindow()
-	},
+	}, 
 
 	onResizeWindow: function() {
-		console.log('Window Resized');
 		var canvas = this.canvas;
 		if(!canvas)
 			return;
@@ -63,7 +67,7 @@ Renderer.prototype = {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
 		vpDimensions = [canvas.width, canvas.height];
-
+		
 		var oldRealRange = this.props.xMax - this.props.xMin;
 		this.props.xMax = (this.props.yMax - this.props.yMin) * (canvas.width / canvas.height) / 1.4 + this.props.xMin;
 		var newRealRange = this.props.xMax - this.props.xMin;
@@ -90,9 +94,10 @@ Renderer.prototype = {
 		
 		this.onResizeWindow();
 	},
-
+	
 	onMouseMove: function(e) {
 		if(e.buttons == 1) {
+			var canvas = this.canvas;
 			var iRange = this.props.yMax - this.props.yMin;
 			var rRange = this.props.xMax - this.props.xMin;
 
